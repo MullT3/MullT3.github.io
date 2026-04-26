@@ -1,0 +1,128 @@
+[
+  {
+    "title": "South London Terrace",
+    "desc": "London, UK",
+    "folder": "/images/projects/project1/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Bridge Fabrication",
+    "desc": "London, UK",
+    "folder": "/images/projects/project2/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Padestrian Footbridge",
+    "desc": "London, UK",
+    "folder": "/images/projects/project3/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Paul Street Hotel",
+    "desc": "London, UK",
+    "folder": "/images/projects/project4/",
+    "images": ["1.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Tower on Legs",
+    "desc": "Concept Study. Manchester, UK",
+    "folder": "/images/projects/project5/",
+    "images": ["1.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Ickworth",
+    "desc": "UK",
+    "folder": "/images/projects/project6/",
+    "images": ["1.jpg", "2.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Basement Car Parks",
+    "desc": "London, UK",
+    "folder": "/images/projects/project7/",
+    "images": ["1.jpg", "2.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Tower Retrofit",
+    "desc": "London, UK",
+    "folder": "/images/projects/project8/",
+    "images": ["1.jpg", "2.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Basement Sequence",
+    "desc": "Basement build over a historic dock feeder. Cardiff, UK",
+    "folder": "/images/projects/project9/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg"],
+    "Size":""
+  },
+  {
+    "title": "High Rise",
+    "desc": "Cardiff, UK",
+    "folder": "/images/projects/project10/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Modern Timber Terrace",
+    "desc": "London, UK",
+    "folder": "/images/projects/project11/",
+    "images": ["1.jpg", "2.jpg", "3.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Windrush",
+    "desc": "London, UK",
+    "folder": "/images/projects/project12/",
+    "images": ["1.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Albert Island Scheme Design",
+    "desc": "London, UK",
+    "folder": "/images/projects/project13/",
+    "images": ["1.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Timber Stress Skin",
+    "desc": "A building that was originaly steel, redesigned in timber only.",
+    "folder": "/images/projects/project14/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Basement on a Slope",
+    "desc": "Construction Sequence",
+    "folder": "/images/projects/project15/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Residential Blocks",
+    "desc": "London, UK",
+    "folder": "/images/projects/project16/",
+    "images": ["1.jpg", "2.jpg", "3.jpg"],
+    "Size":""
+  },
+  {
+    "title": "Architects House",
+    "desc": "London, UK",
+    "folder": "/images/projects/project17/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "Size":""
+  }, 
+  {
+    "title": "Architects House",
+    "desc": "London, UK",
+    "folder": "/images/projects/project18/",
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "Size":""
+  }
+]

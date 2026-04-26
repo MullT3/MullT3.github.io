@@ -1,0 +1,271 @@
+---
+layout: default
+permalink: /projects/
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <!-- Your existing styles -->
+  <link rel="stylesheet" href="/css/main.css">
+
+  <style>
+    body { background: #ffffff; }
+
+    .projects-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding:20px 20px;
+    }
+
+    .projects-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .projects-subtitle {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    /* GRID */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-auto-rows: 300px;
+      gap: 5px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .wide { grid-column: span 2; }
+    .tall { grid-row: span 2; }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      background: rgb(255, 255, 255);
+      font-size: 14px;
+    }
+
+    .overlay h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .overlay p {
+      margin: 2px 0 0;
+      opacity: 0.7;
+      font-size: 12px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgb(255, 255, 255);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      text-align: center;
+      color: rgb(0, 0, 0);
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80vh;
+    }
+
+    .lightbox-caption {
+      margin-top: 15px;
+    }
+
+    .lightbox-caption h2 {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .lightbox-caption p {
+      margin: 5px 0 0;
+      opacity: 0.7;
+    }
+
+    /* ARROWS */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: rgb(0, 0, 0);
+      cursor: pointer;
+      padding: 20px;
+    }
+
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
+
+    /* CLOSE */
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    /* PROJECT VIEWER */
+    .project-viewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+      display: none;
+      z-index: 9998;
+    }
+
+    .project-viewer.active {
+      display: block;
+    }
+
+    .viewer-scroll {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      height: 100%;
+      width: 100%;
+
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+
+      /* THIS centers first/last images */
+      padding: 0 calc(50vw - 50%);
+    }
+
+    /* Each image sits centered in viewport */
+    .viewer-scroll img {
+      flex: 0 0 100vw;        /* each image takes full screen width */
+      height: 100%;
+      object-fit: contain;
+
+      scroll-snap-align: center;
+      cursor: zoom-in;
+    }
+  /* subtle edge blur using mask */
+    .viewer-scroll img {
+      -webkit-mask-image: radial-gradient(circle, 
+        rgba(0,0,0,1) 70%, 
+        rgba(0,0,0,0.6) 85%, 
+        rgba(0,0,0,0) 100%);
+      mask-image: radial-gradient(circle, 
+        rgba(0,0,0,1) 70%, 
+        rgba(0,0,0,0.6) 85%, 
+        rgba(0,0,0,0) 100%);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER (matches your site) -->
+<!--
+<header class="panel-cover panel-cover--collapsed"
+  style="background-image: url(/images/cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <a href="/">
+          <h1 class="panel-cover__title">MullT∞ | Tyron Mullins</h1>
+        </a>
+
+        <nav class="cover-navigation cover-navigation--primary">
+          <ul class="navigation">
+            <li class="navigation__item">
+              <a href="/#blog" class="blog-button">Blog</a>
+            </li>
+            <li class="navigation__item">
+              <a href="/projects.html" class="projects-button">Projects</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+-->
+
+<!-- CONTENT -->
+<div class="projects-container">
+  <h1 class="projects-title">Work</h1>
+  <h2 class="projects-subtitle">Bits from jobs I've worked on over the years</h2>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span class="close" id="close">&times;</span>
+  <span class="arrow left" id="prev">&#10094;</span>
+
+  <div class="lightbox-content">
+    <img id="lightbox-img">
+    <div class="lightbox-caption">
+      <h2 id="lightbox-title"></h2>
+      <p id="lightbox-desc"></p>
+    </div>
+    <div class="counter" id="counter"></div>
+  </div>
+
+  <span class="arrow right" id="next">&#10095;</span>
+</div>
+
+
+<div class="project-viewer" id="project-viewer">
+  <span class="close" id="viewer-close">&times;</span>
+
+  <div class="viewer-scroll" id="viewer-scroll"></div>
+</div>
+
+<!-- SCRIPT -->
+<script src="/js/projects.js"></script>
+
+</body>
+</html>

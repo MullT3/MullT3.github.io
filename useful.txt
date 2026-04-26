@@ -1,0 +1,1 @@
+https://waywardmark.com/blog/publish-local-jekyll-site-to-github
