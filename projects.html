@@ -2,25 +2,44 @@
 layout: default
 permalink: /projects/
 ---
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width initial-scale=1">
 
-  <!-- Your existing styles -->
-  <link rel="stylesheet" href="/css/main.css">
+  <div class="projects-container">
+    <h1 class="projects-title">Work</h1>
+    <h2 class="projects-subtitle">Bits from jobs I've worked on over the years</h2>
+
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <!-- VIEWER -->
+  <div class="project-viewer" id="project-viewer">
+    <span class="close" id="viewer-close">&times;</span>
+
+    <!-- TOP CLICK EXIT ZONE -->
+    <div class="viewer-exit-zone" id="viewer-exit"></div>
+
+    <!-- COUNTER -->
+    <div class="viewer-counter" id="viewer-counter">1 / 1</div>
+
+    <div class="viewer-scroll" id="viewer-scroll"></div>
+
+    <!-- NAV -->
+    <div class="viewer-zone left" id="viewer-left"></div>
+    <div class="viewer-zone right" id="viewer-right"></div>
+  </div>
+
+  <!-- FULLSCREEN -->
+  <div class="fullscreen-viewer" id="fullscreen-viewer">
+    <span class="close" id="fs-close">&times;</span>
+    <img id="fullscreen-img">
+  </div>
 
   <style>
-    body { background: #ffffff; }
-
-    .projects-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding:20px 20px;
-    }
-
+  /* ===== GRID ===== */
     .projects-title {
       text-align: center;
       margin-bottom: 30px;
@@ -31,241 +50,211 @@ permalink: /projects/
       margin-bottom: 10px;
       font-size: 12px;
     }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-auto-rows: 260px;
+    gap: 10px;
+  }
 
-    /* GRID */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      grid-auto-rows: 300px;
-      gap: 5px;
-    }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
 
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
+  /* IMAGE */
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
 
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
 
-    .gallery-item:hover img {
-      transform: scale(1.08);
-    }
+  /* EDGE FADE */
+  .gallery-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-    .wide { grid-column: span 2; }
-    .tall { grid-row: span 2; }
+    background: radial-gradient(
+      circle,
+      transparent 20%,
+      rgba(255, 255, 255, 0.5) 85%,
+      rgba(255, 255, 255, 0.85) 100%
+    );
 
-    .overlay {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      padding: 10px;
-      background: rgb(255, 255, 255);
-      font-size: 14px;
-    }
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
 
-    .overlay h3 {
-      margin: 0;
-      font-weight: 400;
-    }
+  .gallery-item:hover::after {
+    opacity: 0.3;
+  }
 
-    .overlay p {
-      margin: 2px 0 0;
-      opacity: 0.7;
-      font-size: 12px;
-    }
+  /* TITLE + SUBTITLE */
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
 
-    /* LIGHTBOX */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgb(255, 255, 255);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
+    background: linear-gradient(
+      to top,
+      rgb(255, 255, 255),
+      rgb(255, 255, 255),
+      transparent
+    );
 
-    .lightbox.active {
-      display: flex;
-    }
+    color: #000000;
+  }
 
-    .lightbox-content {
-      text-align: center;
-      color: rgb(0, 0, 0);
-    }
+  .overlay strong {
+    display: block;
+    font-size: 14px;
 
-    .lightbox img {
-      max-width: 90%;
-      max-height: 80vh;
-    }
+  }
 
-    .lightbox-caption {
-      margin-top: 15px;
-    }
+  .overlay span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
 
-    .lightbox-caption h2 {
-      margin: 0;
-      font-weight: 400;
-    }
+  /* ===== VIEWER ===== */
+  .project-viewer {
+    position: fixed;
+    inset: 0;
 
-    .lightbox-caption p {
-      margin: 5px 0 0;
-      opacity: 0.7;
-    }
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(6px);
 
-    /* ARROWS */
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      color: rgb(0, 0, 0);
-      cursor: pointer;
-      padding: 20px;
-    }
+    display: none;
+    z-index: 1000;
+  }
 
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
+  .project-viewer.active {
+    display: block;
+  }
 
-    /* CLOSE */
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 30px;
-      cursor: pointer;
-    }
+  /* EXIT ZONE (TOP RIGHT AREA) */
+  .viewer-exit-zone {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    height: 80px;
+    z-index: 30;
+    cursor: pointer;
+  }
 
-    /* PROJECT VIEWER */
-    .project-viewer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #ffffff;
-      display: none;
-      z-index: 9998;
-    }
+  .viewer-scroll {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
 
-    .project-viewer.active {
-      display: block;
-    }
+  .viewer-scroll img {
+    flex: 0 0 auto;
+    max-width: 80vw;
+    max-height: 80vh;
+    margin: 0 40px;
+    object-fit: contain;
+    scroll-snap-align: center;
+    cursor: default;
+  }
 
-    .viewer-scroll {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
+  .viewer-scroll img.center-hover {
+    cursor: zoom-in;
+  }
 
-      overflow-x: auto;
-      overflow-y: hidden;
+  /* NAV ZONES */
+  .viewer-zone {
+    position: absolute;
+    top: 0;
+    width: 30%;
+    height: 100%;
+    z-index: 10;
+  }
 
-      height: 100%;
-      width: 100%;
+  .viewer-zone.left { left: 0; }
+  .viewer-zone.right { right: 0; }
 
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
+  /* ARROWS */
+  .viewer-zone::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 36px;
+    color: rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
 
-      /* THIS centers first/last images */
-      padding: 0 calc(50vw - 50%);
-    }
+  .viewer-zone.left::after {
+    content: "←";
+    left: 20px;
+  }
 
-    /* Each image sits centered in viewport */
-    .viewer-scroll img {
-      flex: 0 0 100vw;        /* each image takes full screen width */
-      height: 100%;
-      object-fit: contain;
+  .viewer-zone.right::after {
+    content: "→";
+    right: 20px;
+  }
 
-      scroll-snap-align: center;
-      cursor: zoom-in;
-    }
-  /* subtle edge blur using mask */
-    .viewer-scroll img {
-      -webkit-mask-image: radial-gradient(circle, 
-        rgba(0,0,0,1) 70%, 
-        rgba(0,0,0,0.6) 85%, 
-        rgba(0,0,0,0) 100%);
-      mask-image: radial-gradient(circle, 
-        rgba(0,0,0,1) 70%, 
-        rgba(0,0,0,0.6) 85%, 
-        rgba(0,0,0,0) 100%);
-    }
+  .viewer-zone:hover::after {
+    opacity: 1;
+  }
+
+  /* COUNTER */
+  .viewer-counter {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 14px;
+    color: #333;
+    z-index: 20;
+  }
+
+  /* ===== FULLSCREEN ===== */
+  .fullscreen-viewer {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 2000;
+  }
+
+  .fullscreen-viewer.active {
+    display: flex;
+  }
+
+  .fullscreen-viewer img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  /* CLOSE */
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 28px;
+    cursor: pointer;
+  }
   </style>
-</head>
 
-<body>
+  <script src="/js/projects.js"></script>
 
-<!-- HEADER (matches your site) -->
-<!--
-<header class="panel-cover panel-cover--collapsed"
-  style="background-image: url(/images/cover.jpg)">
-  <div class="panel-main">
-    <div class="panel-main__inner panel-inverted">
-      <div class="panel-main__content">
-        <a href="/">
-          <h1 class="panel-cover__title">MullT∞ | Tyron Mullins</h1>
-        </a>
-
-        <nav class="cover-navigation cover-navigation--primary">
-          <ul class="navigation">
-            <li class="navigation__item">
-              <a href="/#blog" class="blog-button">Blog</a>
-            </li>
-            <li class="navigation__item">
-              <a href="/projects.html" class="projects-button">Projects</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
--->
-
-<!-- CONTENT -->
-<div class="projects-container">
-  <h1 class="projects-title">Work</h1>
-  <h2 class="projects-subtitle">Bits from jobs I've worked on over the years</h2>
-  <div class="gallery" id="gallery"></div>
-</div>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span class="close" id="close">&times;</span>
-  <span class="arrow left" id="prev">&#10094;</span>
-
-  <div class="lightbox-content">
-    <img id="lightbox-img">
-    <div class="lightbox-caption">
-      <h2 id="lightbox-title"></h2>
-      <p id="lightbox-desc"></p>
-    </div>
-    <div class="counter" id="counter"></div>
-  </div>
-
-  <span class="arrow right" id="next">&#10095;</span>
-</div>
-
-
-<div class="project-viewer" id="project-viewer">
-  <span class="close" id="viewer-close">&times;</span>
-
-  <div class="viewer-scroll" id="viewer-scroll"></div>
-</div>
-
-<!-- SCRIPT -->
-<script src="/js/projects.js"></script>
-
-</body>
+  </body>
 </html>

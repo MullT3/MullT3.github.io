@@ -1,213 +1,242 @@
-// ==========================
-// STATE
-// ==========================
 let projectData = [];
-let currentIndex = 0;
 let images = [];
+let viewerIndex = 0;
+let currentIndex = 0;
 
-// Swipe
+// drag
 let startX = 0;
-let endX = 0;
-const threshold = 50;
+let deltaX = 0;
+let dragging = false;
 
-// ==========================
-// ELEMENTS
-// ==========================
 const gallery = document.getElementById('gallery');
 
 const viewer = document.getElementById('project-viewer');
 const viewerScroll = document.getElementById('viewer-scroll');
 const viewerClose = document.getElementById('viewer-close');
+const viewerCounter = document.getElementById('viewer-counter');
 
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
+const viewerLeft = document.getElementById('viewer-left');
+const viewerRight = document.getElementById('viewer-right');
 
-const nextBtn = document.getElementById('next');
-const prevBtn = document.getElementById('prev');
-const closeBtn = document.getElementById('close');
+const fullscreen = document.getElementById('fullscreen-viewer');
+const fsImg = document.getElementById('fullscreen-img');
+const fsClose = document.getElementById('fs-close');
 
-// NEW: counter
-const counter = document.getElementById('counter');
+const viewerExit = document.getElementById('viewer-exit');
 
-
-// ==========================
-// LOAD PROJECTS
-// ==========================
+// LOAD DATA
 fetch('/projects.json')
   .then(res => res.json())
   .then(data => {
     projectData = data;
 
-    data.forEach((project, index) => {
+    data.forEach((project, i) => {
       const item = document.createElement('div');
       item.className = 'gallery-item';
 
       item.innerHTML = `
-        <img src="${project.folder + project.images[0]}" data-index="${index}">
+        <img src="${project.folder + project.images[0]}" data-index="${i}">
         <div class="overlay">
-          <h3>${project.title}</h3>
-          <p>${project.desc}</p>
+          <strong>${project.title}</strong><br>
+          ${project.desc}
         </div>
       `;
 
       gallery.appendChild(item);
     });
 
-    initClicks();
-  });
-
-
-// ==========================
-// PROJECT VIEWER
-// ==========================
-function initClicks() {
-  document.querySelectorAll('.gallery img').forEach(img => {
-    img.addEventListener('click', () => {
-      openProject(img.dataset.index);
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.onclick = () => openProject(img.dataset.index);
     });
   });
-}
 
+
+// OPEN VIEWER
 function openProject(index) {
   const project = projectData[index];
-
   viewerScroll.innerHTML = '';
 
   project.images.forEach((file, i) => {
     const img = document.createElement('img');
     img.src = project.folder + file;
 
-    img.addEventListener('click', () => {
-      showFullscreen(i);
+    // hover zone detection
+    img.addEventListener('mousemove', (e) => {
+      const rect = img.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+
+      if (x > rect.width * 0.3 && x < rect.width * 0.7) {
+        img.classList.add('center-hover');
+      } else {
+        img.classList.remove('center-hover');
+      }
     });
+
+    // click zones
+    img.onclick = (e) => {
+      const rect = img.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+
+      if (x < rect.width * 0.3) viewerPrev();
+      else if (x > rect.width * 0.7) viewerNext();
+      else openFullscreen(i);
+    };
 
     viewerScroll.appendChild(img);
   });
 
   images = viewerScroll.querySelectorAll('img');
-  currentIndex = 0;
+  viewerIndex = 0;
 
-  viewer.offsetHeight;
+  updateCounter();
+
   viewer.classList.add('active');
-
-  // Center first image
-  setTimeout(() => {
-    images[0].scrollIntoView({ inline: 'center' });
-  }, 50);
 }
 
 
-// ==========================
-// LIGHTBOX
-// ==========================
-function showFullscreen(index) {
-  currentIndex = index;
-  lightboxImg.src = images[index].src;
-
-  updateCounter();
-
-  lightbox.classList.add('active');
-}
-
-function closeLightbox() {
-  lightbox.classList.remove('active');
-}
-
-
-// ==========================
-// NAVIGATION
-// ==========================
-function nextImage() {
-  currentIndex = (currentIndex + 1) % images.length;
-  lightboxImg.src = images[currentIndex].src;
-
+// VIEWER NAV
+function viewerNext() {
+  viewerIndex = (viewerIndex + 1) % images.length;
+  images[viewerIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   updateCounter();
 }
 
-function prevImage() {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  lightboxImg.src = images[currentIndex].src;
-
+function viewerPrev() {
+  viewerIndex = (viewerIndex - 1 + images.length) % images.length;
+  images[viewerIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   updateCounter();
 }
 
-
-// ==========================
-// COUNTER
-// ==========================
 function updateCounter() {
-  if (!counter) return;
-  counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  viewerCounter.textContent = `${viewerIndex + 1} / ${images.length}`;
 }
 
 
-// ==========================
-// SWIPE (LIGHTWEIGHT)
-// ==========================
-lightbox.addEventListener('touchstart', e => {
+// ZONE CLICK
+viewerLeft.onclick = (e) => {
+  e.stopPropagation();
+  viewerPrev();
+};
+
+viewerRight.onclick = (e) => {
+  e.stopPropagation();
+  viewerNext();
+};
+
+
+// VIEWER SWIPE
+let vStartX = 0;
+
+viewer.addEventListener('touchstart', (e) => {
+  vStartX = e.touches[0].clientX;
+});
+
+viewer.addEventListener('touchend', (e) => {
+  const diff = vStartX - e.changedTouches[0].clientX;
+
+  if (Math.abs(diff) > 50) {
+    diff > 0 ? viewerNext() : viewerPrev();
+  }
+});
+
+
+// FULLSCREEN
+function openFullscreen(i) {
+  currentIndex = i;
+  fsImg.src = images[i].src;
+  fullscreen.classList.add('active');
+}
+
+function next() {
+  currentIndex = (currentIndex + 1) % images.length;
+  fsImg.src = images[currentIndex].src;
+}
+
+function prev() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  fsImg.src = images[currentIndex].src;
+}
+
+
+// DRAG FULLSCREEN
+fullscreen.addEventListener('mousedown', e => {
+  dragging = true;
+  startX = e.clientX;
+});
+
+fullscreen.addEventListener('mousemove', e => {
+  if (!dragging) return;
+
+  deltaX = e.clientX - startX;
+  fsImg.style.transform = `translateX(${deltaX}px)`;
+});
+
+fullscreen.addEventListener('mouseup', () => {
+  if (!dragging) return;
+
+  dragging = false;
+
+  if (deltaX > 80) prev();
+  else if (deltaX < -80) next();
+
+  fsImg.style.transform = '';
+  deltaX = 0;
+});
+
+fullscreen.addEventListener('mouseleave', () => {
+  dragging = false;
+  fsImg.style.transform = '';
+});
+
+
+// TOUCH FULLSCREEN
+fullscreen.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
 });
 
-lightbox.addEventListener('touchmove', e => {
-  endX = e.touches[0].clientX;
+fullscreen.addEventListener('touchmove', e => {
+  deltaX = e.touches[0].clientX - startX;
+  fsImg.style.transform = `translateX(${deltaX}px)`;
 });
 
-lightbox.addEventListener('touchend', () => {
-  let diff = startX - endX;
+fullscreen.addEventListener('touchend', () => {
+  if (deltaX > 80) prev();
+  else if (deltaX < -80) next();
 
-  if (Math.abs(diff) > threshold) {
-    diff > 0 ? nextImage() : prevImage();
-  }
-});
-
-
-// ==========================
-// CLICK ZONES (NEW)
-// ==========================
-lightbox.addEventListener('click', (e) => {
-  // Only trigger if clicking the image itself
-  if (e.target !== lightboxImg) return;
-
-  const x = e.clientX;
-  const width = window.innerWidth;
-
-  if (x < width / 2) {
-    prevImage();
-  } else {
-    nextImage();
-  }
+  fsImg.style.transform = '';
+  deltaX = 0;
 });
 
 
-// ==========================
-// EVENTS
-// ==========================
-nextBtn.onclick = nextImage;
-prevBtn.onclick = prevImage;
-closeBtn.onclick = closeLightbox;
+// CLOSE
+fsClose.onclick = (e) => {
+  e.stopPropagation();
+  fullscreen.classList.remove('active');
+};
+
+fullscreen.onclick = (e) => {
+  if (e.target === fullscreen) fullscreen.classList.remove('active');
+};
 
 viewerClose.onclick = () => viewer.classList.remove('active');
 
-// Keyboard
+viewer.onclick = (e) => {
+  if (e.target === viewer) viewer.classList.remove('active');
+};
+
+// TOP RIGHT EXIT ZONE
+viewerExit.onclick = (e) => {
+  e.stopPropagation();
+  viewer.classList.remove('active');
+};
+
+// KEYBOARD
 document.addEventListener('keydown', e => {
-
-  if (lightbox.classList.contains('active')) {
-    if (e.key === 'ArrowRight') nextImage();
-    if (e.key === 'ArrowLeft') prevImage();
-    if (e.key === 'Escape') closeLightbox();
-  }
-
-  else if (viewer.classList.contains('active')) {
+  if (fullscreen.classList.contains('active')) {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'Escape') fullscreen.classList.remove('active');
+  } else if (viewer.classList.contains('active')) {
     if (e.key === 'Escape') viewer.classList.remove('active');
   }
-
-});
-
-// Click outside to close
-lightbox.addEventListener('click', e => {
-  if (e.target === lightbox) closeLightbox();
-});
-
-viewer.addEventListener('click', e => {
-  if (e.target === viewer) viewer.classList.remove('active');
 });

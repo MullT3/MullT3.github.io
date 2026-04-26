@@ -10,7 +10,7 @@
     "title": "Bridge Fabrication",
     "desc": "London, UK",
     "folder": "/images/projects/project2/",
-    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg", "7.jpg"],
     "Size":""
   },
   {
@@ -66,7 +66,7 @@
     "title": "High Rise",
     "desc": "Cardiff, UK",
     "folder": "/images/projects/project10/",
-    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg", "7.jpg"],
     "Size":""
   },
   {
@@ -80,7 +80,7 @@
     "title": "Windrush",
     "desc": "London, UK",
     "folder": "/images/projects/project12/",
-    "images": ["1.jpg"],
+    "images": ["1.jpg", "2.jpg"],
     "Size":""
   },
   {
@@ -92,9 +92,9 @@
   },
   {
     "title": "Timber Stress Skin",
-    "desc": "A building that was originaly steel, redesigned in timber only.",
+    "desc": "A building redesigned in timber only.",
     "folder": "/images/projects/project14/",
-    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
     "Size":""
   },
   {
@@ -108,14 +108,14 @@
     "title": "Residential Blocks",
     "desc": "London, UK",
     "folder": "/images/projects/project16/",
-    "images": ["1.jpg", "2.jpg", "3.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg"],
     "Size":""
   },
   {
     "title": "Architects House",
     "desc": "London, UK",
     "folder": "/images/projects/project17/",
-    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg"],
     "Size":""
   }, 
   {
@@ -124,5 +124,12 @@
     "folder": "/images/projects/project18/",
     "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
     "Size":""
+  }, 
+  {
+  "title": "Park Cresent",
+  "desc": "London, UK",
+  "folder": "/images/projects/project19/",
+  "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
+  "Size":"Wide"
   }
 ]
