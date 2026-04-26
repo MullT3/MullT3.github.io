@@ -1,260 +1,262 @@
 ---
-layout: default
+layout: projects
 permalink: /projects/
 ---
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width initial-scale=1">
 
-  <div class="projects-container">
-    <h1 class="projects-title">Work</h1>
-    <h2 class="projects-subtitle">Bits from jobs I've worked on over the years</h2>
+<div class="projects-container projects-wide">
 
-    <div class="gallery" id="gallery"></div>
-  </div>
+  <h1 class="projects-title">Work</h1>
+  <h2 class="projects-subtitle">Bits from jobs I've worked on over the years</h2>
 
-  <!-- VIEWER -->
-  <div class="project-viewer" id="project-viewer">
-    <span class="close" id="viewer-close">&times;</span>
+  <div class="gallery" id="gallery"></div>
 
-    <!-- TOP CLICK EXIT ZONE -->
-    <div class="viewer-exit-zone" id="viewer-exit"></div>
+</div>
 
-    <!-- COUNTER -->
-    <div class="viewer-counter" id="viewer-counter">1 / 1</div>
+<!-- VIEWER -->
+<div class="project-viewer" id="project-viewer">
+  <span class="close" id="viewer-close">&times;</span>
+  <div class="viewer-exit-zone" id="viewer-exit"></div>
+  <div class="viewer-counter" id="viewer-counter">1 / 1</div>
+  <div class="viewer-scroll" id="viewer-scroll"></div>
 
-    <div class="viewer-scroll" id="viewer-scroll"></div>
+  <div class="viewer-zone left" id="viewer-left"></div>
+  <div class="viewer-zone right" id="viewer-right"></div>
+</div>
 
-    <!-- NAV -->
-    <div class="viewer-zone left" id="viewer-left"></div>
-    <div class="viewer-zone right" id="viewer-right"></div>
-  </div>
+<!-- FULLSCREEN -->
+<div class="fullscreen-viewer" id="fullscreen-viewer">
+  <span class="close" id="fs-close">&times;</span>
+  <img id="fullscreen-img">
+</div>
 
-  <!-- FULLSCREEN -->
-  <div class="fullscreen-viewer" id="fullscreen-viewer">
-    <span class="close" id="fs-close">&times;</span>
-    <img id="fullscreen-img">
-  </div>
+<style>
 
-  <style>
-  /* ===== GRID ===== */
-    .projects-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.projects-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-    .projects-subtitle {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
+.projects-subtitle {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.projects-wide {
+  max-width: 750px; /* This control the width of grid on the page. Need to adjust to make 3/4 to the right.*/
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== GRID ===== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-auto-rows: 260px;
+  gap: 20px;
+}
+
+/*.gallery {
+  display: grid;
+  gap: 12px;
+}*/
+
+/* 🔥 Desktop + Large screens */
+/*@media (min-width: 900px) {
   .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 260px;
-    gap: 10px;
   }
+}*/
 
-  .gallery-item {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
+/* 📱 Tablet */
+/*@media (max-width: 899px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 260px;
   }
+}*/
 
-  /* IMAGE */
-  .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+/* 📱 Small mobile (optional but recommended) */
+/*@media (max-width: 500px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
   }
+}*/
 
-  .gallery-item:hover img {
-    transform: scale(1.05);
-  }
+/* ===== CARD ===== */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
 
-  /* EDGE FADE */
-  .gallery-item::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+/* IMAGE */
+.gallery-item img {
+  width: 105%;
+  height: 105%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 
-    background: radial-gradient(
-      circle,
-      transparent 20%,
-      rgba(255, 255, 255, 0.5) 85%,
-      rgba(255, 255, 255, 0.85) 100%
-    );
+  /* 👇 TRUE EDGE SOFTEN (no overlay, no text fade) */
+  -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
+  mask-image: radial-gradient(circle, black 70%, transparent 100%);
+}
 
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-  }
+.gallery-item {
+  transition: transform 0.25s ease;
+}
 
-  .gallery-item:hover::after {
-    opacity: 0.3;
-  }
+.gallery-item:hover {
+  transform: translateY(-4px);
+}
 
-  /* TITLE + SUBTITLE */
-  .overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
+.gallery-item img {
+  transition: transform 0.4s ease;
+}
 
-    background: linear-gradient(
-      to top,
-      rgb(255, 255, 255),
-      rgb(255, 255, 255),
-      transparent
-    );
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
 
-    color: #000000;
-  }
+/* ===== TEXT (SEPARATED) ===== */
+.overlay {
+  position: absolute;
+  bottom: 0px;
+  left: 5px;
+  right: 5px;
 
-  .overlay strong {
-    display: block;
-    font-size: 14px;
+  padding: 5px 5px;
 
-  }
+  background: rgba(255, 255, 255, 0.8); /* soft white */
+  backdrop-filter: blur(6px);            /* glass effect */
 
-  .overlay span {
-    font-size: 12px;
-    opacity: 0.8;
-  }
+  border-radius: 0px;
 
-  /* ===== VIEWER ===== */
-  .project-viewer {
-    position: fixed;
-    inset: 0;
+  color: #000;
+}
 
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(6px);
+/* TITLE */
+.overlay .title {
+  /*color: black;
+  -webkit-text-fill-color: white; Some fun with text outlines.
+  -webkit-text-stroke: 0.5px black;
+  */ 
+  font-size: 16px;
+  font-weight: 600;
+}
 
-    display: none;
-    z-index: 1000;
-  }
+/* SUBTITLE */
+.overlay .subtitle {
+  font-size: 10px;
+  opacity: 0.7;
+}
 
-  .project-viewer.active {
-    display: block;
-  }
+/* ===== VIEWER ===== */
+.project-viewer {
+  position: fixed;
+  inset: 0;
+  background: rgb(255, 255, 255);
+  backdrop-filter: blur(6px);
+  display: none;
+  z-index: 1000;
+}
+.project-viewer.active { display: block; }
 
-  /* EXIT ZONE (TOP RIGHT AREA) */
-  .viewer-exit-zone {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25%;
-    height: 80px;
-    z-index: 30;
-    cursor: pointer;
-  }
+/* EXIT ZONE */
+.viewer-exit-zone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 80px;
+  z-index: 30;
+}
 
-  .viewer-scroll {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
+/* SCROLL */
+.viewer-scroll {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
 
-  .viewer-scroll img {
-    flex: 0 0 auto;
-    max-width: 80vw;
-    max-height: 80vh;
-    margin: 0 40px;
-    object-fit: contain;
-    scroll-snap-align: center;
-    cursor: default;
-  }
+.viewer-scroll img {
+  flex: 0 0 auto;
+  max-width: 80vw;
+  max-height: 80vh;
+  margin: 0 40px;
+  scroll-snap-align: center;
+  cursor: default;
+}
 
-  .viewer-scroll img.center-hover {
-    cursor: zoom-in;
-  }
+.viewer-scroll img.center-hover {
+  cursor: zoom-in;
+}
 
-  /* NAV ZONES */
-  .viewer-zone {
-    position: absolute;
-    top: 0;
-    width: 30%;
-    height: 100%;
-    z-index: 10;
-  }
+/* NAV */
+.viewer-zone {
+  position: absolute;
+  top: 0;
+  width: 30%;
+  height: 100%;
+}
 
-  .viewer-zone.left { left: 0; }
-  .viewer-zone.right { right: 0; }
+.viewer-zone.left { left: 0; }
+.viewer-zone.right { right: 0; }
 
-  /* ARROWS */
-  .viewer-zone::after {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 36px;
-    color: rgba(0,0,0,0.25);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
+/* ARROWS */
+.viewer-zone::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 36px;
+  color: rgba(0,0,0,0.25);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
 
-  .viewer-zone.left::after {
-    content: "←";
-    left: 20px;
-  }
+.viewer-zone.left::after { content: "←"; left: 20px; }
+.viewer-zone.right::after { content: "→"; right: 20px; }
 
-  .viewer-zone.right::after {
-    content: "→";
-    right: 20px;
-  }
+.viewer-zone:hover::after { opacity: 1; }
 
-  .viewer-zone:hover::after {
-    opacity: 1;
-  }
+/* COUNTER */
+.viewer-counter {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+}
 
-  /* COUNTER */
-  .viewer-counter {
-    position: absolute;
-    top: 20px;
-    left: 30px;
-    font-size: 14px;
-    color: #333;
-    z-index: 20;
-  }
+/* ===== FULLSCREEN ===== */
+.fullscreen-viewer {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
 
-  /* ===== FULLSCREEN ===== */
-  .fullscreen-viewer {
-    position: fixed;
-    inset: 0;
-    background: #fff;
+.fullscreen-viewer.active { display: flex; }
 
-    display: none;
-    align-items: center;
-    justify-content: center;
+.fullscreen-viewer img {
+  max-width: 90vw;
+  max-height: 90vh;
+}
 
-    z-index: 2000;
-  }
+/* CLOSE */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 28px;
+  cursor: pointer;
+}
 
-  .fullscreen-viewer.active {
-    display: flex;
-  }
+</style>
 
-  .fullscreen-viewer img {
-    max-width: 90vw;
-    max-height: 90vh;
-    object-fit: contain;
-  }
-
-  /* CLOSE */
-  .close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 28px;
-    cursor: pointer;
-  }
-  </style>
-
-  <script src="/js/projects.js"></script>
-
-  </body>
-</html>
+<script src="/js/projects.js"></script>

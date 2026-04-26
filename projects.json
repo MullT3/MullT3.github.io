@@ -36,7 +36,7 @@
   },
   {
     "title": "Ickworth",
-    "desc": "UK",
+    "desc": "Suffolk, UK",
     "folder": "/images/projects/project6/",
     "images": ["1.jpg", "2.jpg"],
     "Size":""
@@ -70,7 +70,7 @@
     "Size":""
   },
   {
-    "title": "Modern Timber Terrace",
+    "title": "Timber Terrace. Architects House 001",
     "desc": "London, UK",
     "folder": "/images/projects/project11/",
     "images": ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
@@ -91,15 +91,15 @@
     "Size":""
   },
   {
-    "title": "Timber Stress Skin",
-    "desc": "A building redesigned in timber only.",
+    "title": "Stress Skin Timber",
+    "desc": "A building redesigned in timber only. Oxford, UK",
     "folder": "/images/projects/project14/",
     "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
     "Size":""
   },
   {
     "title": "Basement on a Slope",
-    "desc": "Construction Sequence",
+    "desc": "Construction Sequence. London, UK",
     "folder": "/images/projects/project15/",
     "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg"],
     "Size":""
@@ -108,18 +108,18 @@
     "title": "Residential Blocks",
     "desc": "London, UK",
     "folder": "/images/projects/project16/",
-    "images": ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg"],
+    "images": ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
     "Size":""
   },
   {
-    "title": "Architects House",
+    "title": "Architects House 002",
     "desc": "London, UK",
     "folder": "/images/projects/project17/",
     "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg", "5.jpg", "6.jpg"],
     "Size":""
   }, 
   {
-    "title": "Architects House",
+    "title": "Architects House 003",
     "desc": "London, UK",
     "folder": "/images/projects/project18/",
     "images": ["1.jpg", "2.jpg", "3.jpg","4.jpg"],
