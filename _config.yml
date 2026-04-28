@@ -8,7 +8,7 @@ description: "General blog of my work and other stuff.
               
               Want to give me a job? Get in touch 🤙"
 url: 'http://MullT.github.io'
-baseurl:
+baseurl: '/'
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
 # disable_landing_page: true
