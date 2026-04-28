@@ -42,11 +42,12 @@ permalink: /projects/
   font-size: 12px;
 }
 
+/*
 .projects-wide {
-  max-width: 750px; /* This control the width of grid on the page. Need to adjust to make 3/4 to the right.*/
-  margin: 0 auto;
+  max-width: 1400px;
   padding: 0 20px;
 }
+*/
 
 /* ===== GRID ===== */
 .gallery {
@@ -55,35 +56,6 @@ permalink: /projects/
   grid-auto-rows: 260px;
   gap: 20px;
 }
-
-/*.gallery {
-  display: grid;
-  gap: 12px;
-}*/
-
-/* 🔥 Desktop + Large screens */
-/*@media (min-width: 900px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 260px;
-  }
-}*/
-
-/* 📱 Tablet */
-/*@media (max-width: 899px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 260px;
-  }
-}*/
-
-/* 📱 Small mobile (optional but recommended) */
-/*@media (max-width: 500px) {
-  .gallery {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 260px;
-  }
-}*/
 
 /* ===== CARD ===== */
 .gallery-item {
@@ -98,10 +70,18 @@ permalink: /projects/
   height: 105%;
   object-fit: cover;
   transition: transform 0.4s ease;
+  transform: scale(1.075);
+  
+  /* smooth fade-out edges */
+  -webkit-mask-image: radial-gradient(circle,
+    rgba(0,0,0,1) 60%,
+    rgba(0,0,0,0) 100%
+  );
 
-  /* 👇 TRUE EDGE SOFTEN (no overlay, no text fade) */
-  -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
-  mask-image: radial-gradient(circle, black 70%, transparent 100%);
+  mask-image: radial-gradient(circle,
+    rgba(0,0,0,1) 60%,
+    rgba(0,0,0,0) 100%
+  );
 }
 
 .gallery-item {
@@ -117,7 +97,7 @@ permalink: /projects/
 }
 
 .gallery-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.10);
 }
 
 /* ===== TEXT (SEPARATED) ===== */
@@ -145,6 +125,7 @@ permalink: /projects/
   */ 
   font-size: 16px;
   font-weight: 600;
+  margin-bottom: 5px;
 }
 
 /* SUBTITLE */

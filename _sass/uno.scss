@@ -1102,6 +1102,13 @@ pre {
 	max-width: 800px;
 	margin-left: 40%; }
 
+/* Added to control projects grid display */
+.content-wrapper__projects {
+  width: calc(60% - 50px);
+  max-width: 1400px;
+  margin-left: 40%;
+}
+
 .content-wrapper__inner {
 	margin: 0 10%;
 	padding: 50px 0; }

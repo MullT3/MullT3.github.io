@@ -16,13 +16,26 @@ const viewerExit = document.getElementById('viewer-exit');
 const fullscreen = document.getElementById('fullscreen-viewer');
 const fsImg = document.getElementById('fullscreen-img');
 
-// LOAD
-fetch('/projects.json')
-.then(r => r.json())
-.then(data => {
-  projectData = data;
+// ==========================
+// LOAD DATA (PRELOAD SUPPORT)
+// ==========================
+if (window.projectsCache) {
+  projectData = window.projectsCache;
+  initGallery(projectData);
+} else {
+  fetch('/projects.json')
+    .then(res => res.json())
+    .then(data => {
+      projectData = data;
+      initGallery(data);
+    });
+}
 
-  data.forEach((p,i) => {
+// ==========================
+// BUILD GALLERY
+// ==========================
+function initGallery(data) {
+  data.forEach((p, i) => {
     const item = document.createElement('div');
     item.className = 'gallery-item';
 
@@ -37,19 +50,21 @@ fetch('/projects.json')
     gallery.appendChild(item);
   });
 
-  document.querySelectorAll('.gallery img').forEach(img=>{
+  document.querySelectorAll('.gallery img').forEach(img => {
     img.onclick = () => openProject(img.dataset.index);
   });
-});
+}
 
-// OPEN
-function openProject(i){
+// ==========================
+// OPEN PROJECT (WITH PRELOAD)
+// ==========================
+function openProject(i) {
   const p = projectData[i];
   viewerScroll.innerHTML = '';
 
   const preloadImages = [];
 
-  p.images.forEach((file, idx)=>{
+  p.images.forEach((file, idx) => {
     const src = p.folder + file;
 
     // 🔥 PRELOAD
@@ -61,12 +76,12 @@ function openProject(i){
     const img = document.createElement('img');
     img.src = src;
 
-    img.onclick = (e)=>{
+    img.onclick = (e) => {
       const rect = img.getBoundingClientRect();
       const x = e.clientX - rect.left;
 
-      if (x < rect.width*0.3) prevViewer();
-      else if (x > rect.width*0.7) nextViewer();
+      if (x < rect.width * 0.3) prevViewer();
+      else if (x > rect.width * 0.7) nextViewer();
       else openFullscreen(idx);
     };
 
@@ -80,68 +95,77 @@ function openProject(i){
   viewer.classList.add('active');
 }
 
-// NAV
-function nextViewer(){
-  viewerIndex = (viewerIndex+1)%images.length;
-  images[viewerIndex].scrollIntoView({behavior:"smooth",inline:"center"});
+// ==========================
+// VIEWER NAV
+// ==========================
+function nextViewer() {
+  viewerIndex = (viewerIndex + 1) % images.length;
+  images[viewerIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   updateCounter();
 }
 
-function prevViewer(){
-  viewerIndex = (viewerIndex-1+images.length)%images.length;
-  images[viewerIndex].scrollIntoView({behavior:"smooth",inline:"center"});
+function prevViewer() {
+  viewerIndex = (viewerIndex - 1 + images.length) % images.length;
+  images[viewerIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   updateCounter();
 }
 
-function updateCounter(){
-  viewerCounter.textContent = `${viewerIndex+1} / ${images.length}`;
+function updateCounter() {
+  viewerCounter.textContent = `${viewerIndex + 1} / ${images.length}`;
 }
 
+// ==========================
 // FULLSCREEN
-function openFullscreen(i){
+// ==========================
+function openFullscreen(i) {
   currentIndex = i;
   fsImg.src = images[i].src;
   fullscreen.classList.add('active');
 }
 
-// FULL NAV
-function next(){
-  currentIndex=(currentIndex+1)%images.length;
-  fsImg.src=images[currentIndex].src;
+function next() {
+  currentIndex = (currentIndex + 1) % images.length;
+  fsImg.src = images[currentIndex].src;
 }
 
-function prev(){
-  currentIndex=(currentIndex-1+images.length)%images.length;
-  fsImg.src=images[currentIndex].src;
+function prev() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  fsImg.src = images[currentIndex].src;
 }
 
-// 🖱️ MOUSE WHEEL (NEW)
-viewer.addEventListener('wheel', (e)=>{
-  if(Math.abs(e.deltaY)>10){
-    e.deltaY>0 ? nextViewer() : prevViewer();
+// ==========================
+// MOUSE WHEEL NAV
+// ==========================
+viewer.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) > 10) {
+    e.deltaY > 0 ? nextViewer() : prevViewer();
   }
 });
 
-fullscreen.addEventListener('wheel', (e)=>{
-  if(Math.abs(e.deltaY)>10){
-    e.deltaY>0 ? next() : prev();
+fullscreen.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) > 10) {
+    e.deltaY > 0 ? next() : prev();
   }
 });
 
-// ZONES
+// ==========================
+// CLICK ZONES
+// ==========================
 viewerLeft.onclick = prevViewer;
 viewerRight.onclick = nextViewer;
-viewerExit.onclick = ()=> viewer.classList.remove('active');
+viewerExit.onclick = () => viewer.classList.remove('active');
 
-// CLOSE
-fullscreen.onclick = (e)=>{
-  if(e.target===fullscreen) fullscreen.classList.remove('active');
+// ==========================
+// CLOSE HANDLERS
+// ==========================
+fullscreen.onclick = (e) => {
+  if (e.target === fullscreen) fullscreen.classList.remove('active');
 };
 
-document.getElementById('fs-close').onclick = ()=>{
+document.getElementById('fs-close').onclick = () => {
   fullscreen.classList.remove('active');
 };
 
-document.getElementById('viewer-close').onclick = ()=>{
+document.getElementById('viewer-close').onclick = () => {
   viewer.classList.remove('active');
 };
