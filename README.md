@@ -1,54 +1,11 @@
-# jekyll-uno
+# README
 
-Jekyll-Uno - a minimal, responsive theme for Jekyll based on the [Uno](https://github.com/daleanthony/Uno) theme for Ghost.
+Build with `bundler exec jekyll serve`.
 
-> :warning:
-  This theme requires ruby and rubygems installed
+# Credits
 
-### Features
+This website was created using [Jekyll](http://jekyllrb.com/) and the [Jekyll-Uno](https://github.com/joshgerdes/jekyll-uno) theme, it's hosted on [GitHub Pages](https://pages.github.com/).
 
-* Clean layout
-* Resposive layout
-* Pagination
-* Syntax highlighting
-* Social links
-* Tags listing page
-* Categories listing page
-* Google Analytics integration
-* Disqus integration
+# License
 
----
-
-### Install and Test
-
-1. Download or clone repo `git clone git@github.com:joshgerdes/jekyll-uno.git`
-2. Enter the folder: `cd jekyll-uno/`
-3. If you don't have bundler installed: `gem install bundler`
-3. Install Ruby gems: `bundle install`
-4. Start Jekyll server: `bundle exec jekyll serve --watch`
-
-Access via: [http://localhost:4000/jekyll-uno/](http://localhost:4000/jekyll-uno/)
-
-If you would like to run without using the `github-pages` gem, update your Gemfile to the following:
-
-```
-source 'https://rubygems.org'
-gem 'jekyll-paginate'
-gem 'jekyll-watch'
-gem 'kramdown'
-gem 'kramdown-parser-gfm'
-```
----
-
-### Demo and Download
-
-[Demo](http://joshgerdes.com/jekyll-uno/)
-[Download](https://github.com/joshgerdes/jekyll-uno/archive/master.zip)
-
-![jekyll-uno - free Jekyll theme](/screenshot.png)
-
----
-
-### Copyright and license
-
-It is under [the MIT license](/LICENSE).
+[MIT License]
