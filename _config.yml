@@ -7,8 +7,8 @@ description: "General blog of my work and other stuff.
               Leyton 🥷
               
               Want to give me a job? Get in touch 🤙"
-url: 'http://MullT3.github.io'
-baseurl: '/'
+url: 'https://MullT3.github.io'
+baseurl: ""
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
 # disable_landing_page: true
