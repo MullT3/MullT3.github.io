@@ -8,4 +8,4 @@ This website was created using [Jekyll](http://jekyllrb.com/) and the [Jekyll-Un
 
 # License
 
-[MIT License]
+MIT License
